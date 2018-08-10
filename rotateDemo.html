@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	div.wrap{
+		width: 500px;
+		height: 500px;
+		position: relative;
+		perspective: 1000px;
+	}
+	.box{
+		width: 100%;
+		height: 500px;
+		position: absolute;
+		left: 0;
+		top:0;
+		background: #33CA73;
+		color:#fff;
+	}
+	.box1{
+		transform: rotateY(-90deg);
+	}
+	.box2{
+		background: #8763F9;
+		transform: rotateY(0);
+	}
+
+	/**旋转90度**/
+	@keyframes show{
+		0%{
+			transform:  rotateY(90deg);
+		}
+		100%{
+			transform:  rotateY(0);
+		}
+	}
+
+	@keyframes hide{
+		0%{
+			transform:  rotateY(0);
+		}
+		100%{
+			transform:  rotateY(-90deg);
+		}
+	}
+
+
+	.show{
+		animation: show .3s ease-out forwards;
+	}
+
+	.hide{
+		animation: hide .3s ease-in forwards;
+	}
+
+	</style>
+	<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.0/jquery.min.js"></script>
+</head>
+<body>
+	<div class="wrap">
+		<div class="box box1 mail-box">
+			邮箱登录方式 box1
+		</div>
+		<div class="box box2 mobile-box ">
+			手机号码登录方式 box2
+		</div>
+	</div>
+	<button class="mail-btn" target="mail-box">邮箱登录</button>
+	<button class="mobile-btn current" target="mobile-box">手机号登录</button>
+	<script type="text/javascript">
+		$(function(){
+			$('button').click(function(){
+				//如果当前是已经显示的就什么也不做,这个current只是用来判断做不做，没有其他用处
+				if($(this).hasClass('current')){
+					return false;
+				}
+				$(this).addClass('current').siblings().removeClass('current');
+				var target = $(this).attr('target');
+				//存一下this，这是为了在下面的setTimeout中使用
+				var $thisBox = $('.'+target);
+				//获取另一个盒子
+				var $theOtherBox = $('.box:not(.'+target+')');
+				//另一个隐藏，300毫秒后当前的显示
+				$theOtherBox.removeClass('show').addClass('hide');
+				setTimeout(function(){
+					$thisBox.addClass('show').removeClass('hide');
+				},300)
+			})
+			
+		})
+	</script>
+</body>
+</html>
